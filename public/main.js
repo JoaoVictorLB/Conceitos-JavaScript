@@ -122,11 +122,10 @@ const arrayList = [1, 2, 3, 4, 5]
 
 // MAP: Permite a manipulação de todos os itens do array original de acordo com condições indicadas pelo programador
 // Exemplo #1: Retornando valores a partir de um map
-const novoArray = arrayList.map(item => {
-  if(item % 2 === 0){
+const novoArray = arrayList.map((item) => {
+  if (item % 2 === 0) {
     return item * 10
-  }
-  else{
+  } else {
     return item
   }
 })
@@ -135,42 +134,101 @@ document.body.innerText = novoArray
 
 // FILTER: Filtra, corta, pega um pedaço do array original
 // Exemplo #1: Fltrando o array original para retornar apenas os elementos ímpares do mesmo
-const arrayFiltrado = arrayList.filter(item => item % 2 !== 0)
+const arrayFiltrado = arrayList.filter((item) => item % 2 !== 0)
 document.body.innerText = arrayFiltrado
 // Exemplo #2: Encadeando métodos de arrays
 const arrayFiltradoEMapeado = arrayList
-  .filter(item => item % 2 !== 0)
-  .map(item => item * 10)
+  .filter((item) => item % 2 !== 0)
+  .map((item) => item * 10)
 document.body.innerText = arrayFiltradoEMapeado
 
 // EVERY: Manipulação de array que percorre todos os seus elementos, validando se determinada condição é atendida por cada um dos itens do vetor, caso seja, este método retorna o booleano 'true' caso contrário 'false'
 // Exemplo #1: Validando se todos os elementos de um array são do tipo 'number'
-const todosOsItensSaoNumeros = arrayList.every(item => typeof(item) === "number");
-document.body.innerText = todosOsItensSaoNumeros;
+const todosOsItensSaoNumeros = arrayList.every(
+  (item) => typeof item === "number"
+)
+document.body.innerText = todosOsItensSaoNumeros
 // Observação: Logicamente, o conteúdo interno da função '.every' deve ser sempre em formato de condicional, retornando verdeiro ou falso.
 
 // SOME: Valida a existência de pelo menos algum item dentro de um array que atenda a uma condição específica explicitada. Retornando também um booleano para indicar o resultado da validação.
 // Exemplo #1: Busca por algum item que não seja um número
 const arrayAuxiliar = [1, 2, 3, "quatro", "cinco", false]
-const peloMenosUmItemNaoEUmNumero = arrayAuxiliar.some(item => typeof(item) !== "number")
-document.body.innerText = peloMenosUmItemNaoEUmNumero;
+const peloMenosUmItemNaoEUmNumero = arrayAuxiliar.some(
+  (item) => typeof item !== "number"
+)
+document.body.innerText = peloMenosUmItemNaoEUmNumero
 
 // FIND: Retorna o primeiro item encontrado em um array que atenda a uma condição explicitada
 // Exemplo #1: Busca por um número par
-const numeroPar = arrayList.find(item => item % 2 === 0)
-document.body.innerText = numeroPar;
+const numeroPar = arrayList.find((item) => item % 2 === 0)
+document.body.innerText = numeroPar
 
 // FINDINDEX: Retorna o índice (posição no array) do primeiro elemento do vetor que atende a determinada condição explicitada
 // Exemplo #1: Busca o índice do primeiro elemento par
-const indiceDoNumeroPar = arrayList.findIndex(item => item % 2 === 0)
+const indiceDoNumeroPar = arrayList.findIndex((item) => item % 2 === 0)
 document.body.innerText = indiceDoNumeroPar
 
 // REDUCE: Utilizado geralmente quando queremos manipular um array e a partir deste criar uma nova estrutura de dados, baseada no conteúdo deste vetor. Seus parâmetros de entrada são basicamente: Uma arrow function e o valor inicial que aquela nova estrutura a ser criada deve armazenar.
 // Exemplo #1: Somar todos os valores de um vetor e retornar este resultado. Para tal precisamos de uma função que explicite esta soma, e passaremos o valor inicial da estrutura como 0, para que o resultado seja unicamente a soma dos elementos do array
 const soma = arrayList.reduce((acc, item) => {
   // acc é o acumulator a variável a ser acumulada a cada iteração do método sobre o array
-  document.body.innerText += acc + ", " + item + ' --- '
+  document.body.innerText += acc + ", " + item + " --- "
   // O método reduce espera que a cada iteração seja retornado o novo valor do acumulator (acc) ou seja o conteúdo do return deste método irá ser armazenado no acc na próxima iteração
-  return acc + item;
+  return acc + item
 }, 0)
 document.body.innerText = soma
+
+// Template Literals: Recurso para facilitar a interpolação entre strings, ao invés de utilizarmos "" + "" para somar strings, declaramos uma única utilizando-se de crases `` e a notação ${STRING_A_SER_ACRESCENTADA} dentro da string inicial.
+// Exemplo #1: Forma tradicional
+const meuNome = "João Victor"
+const stringAuxiliar = null
+document.body.innerText = "Bem vindo, " + meuNome
+// Exemplo #2: Template Literals
+document.body.innerText = `Bem vindo, ${meuNome}`
+// Exemplo #3: Podemos ainda adicionar condicionais, funções e códigos diversos dentro das chaves
+document.body.innerText = `Bem vindo, ${stringAuxiliar ?? "visitante"}`
+
+// Promises: Em tradução direta, são promessas de execuções de código no futuro. Utilizado em conjunto com o conceito de execuções de códigos assíncronos. Uma promise ( new Promise() ) precisa de dois parâmetros de entrada, e são eles, o 'resolve' e o 'reject', o primeiro indica o que deve ser feito em caso de execução de sucesso da promise, o segundo indica qual tratativa deve ser realizada em caso de fracasso. Ao final da declaração da promise e todo seu bloco de código, podemos acessar as tratativas dos dois cenários (sucesso e erro) através das funções nativas de uma promise denominadas '.then' e '.catch' a primeira acessa o resultado da execução do resolve e a segunda o resultado do reject
+// Exemplo #1: Uso do '.fecth()' que é naturalmente uma promise de que algo será retornado dado o consumo de uma API
+fetch("https://api.github.com/users/JoaoVictorLB")
+  // .then(response => {
+  // Note que o '.json()' transforma a resposta JSON e esta função por sua vez também devolve uma promise de que esta operação será realizada
+  //   response.json().then(body => {
+  //     console.log(body)
+  //   })
+  // })
+  // === Simplificando todo o bloco de código comentado acima:
+  .then((response) => {
+    return response.json()
+  })
+  .then((body) => {
+    console.log(body)
+  })
+  // ========================================================
+  .catch((err) => {
+    console.log(err)
+  })
+  // Finally é utilizado para indicar um bloco de código a ser executado sempre ao final de todas as demais operações da promise, independente do caso de sucesso ou de erro (resolve e reject)
+  .finally(() => {
+    console.log("Funcionou!")
+  })
+// Exemplo #2: Outra forma de utilização das promises. O 'async' indica que a função possui um bloco de código a ser executado de maneira assíncrona. O 'await' indica que a próxima linha de código só poderá ser executada quando a atual (que contém o await) finalizar suas operações. Para tratar o then e o catch utilizamos um try-catch-finally neste caso.
+// Observação: Toda função declarada como async automaticamente se torna uma promise!
+async function buscaDadosNoGithub() {
+  try {
+    const response = await fetch("https://api.github.com/users/JoaoVictorLB")
+    const body = await response.json()
+    return body
+  } catch (err) {
+    console.log(err)
+  } finally {
+    console.log("Funcionou!")
+  }
+}
+buscaDadosNoGithub().then((usuario) => {
+  console.log(usuario.login)
+})
+
+// Importações e Exportações de scripts entre arquivos distintos
+import { multiplicaDoisNumeros } from "../lib/math"
+console.log(multiplicaDoisNumeros(2, 3))
