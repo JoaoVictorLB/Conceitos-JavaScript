@@ -85,3 +85,92 @@ const pessoa = {
   peso,
 }
 document.body.innerText = JSON.stringify(pessoa)
+
+// Optional Chaining: Se propõe a ser uma simplificação de ternários muito extensos, quando se precisa validar o conteúdo de um campo interno a muitas camadas de um objeto, então utilizamos a cada camada acessada ao invés de 'camada1 ? camada1.camada2 : null' a notação 'camada1?.camada2 ?? null' combinando o conceito de Nullish Coalescing Operator ('??') com a nova notação ('?.')
+const usuario = {
+  nome: "Joao Victor",
+  idade: "25",
+  endereco: {
+    rua: "Rua Alecsander Alves",
+    numero: "18",
+    cep: {
+      codigo: "36036533",
+      cidade: "Juiz de Fora",
+    },
+    retornaStatusAtivoDoEndereco() {
+      return "Ativo!"
+    },
+  },
+}
+// Exemplo #1: Acessando o campo 'codigo' através de um ternário padrão e tratando as camadas para o cenário em que não existam
+document.body.innerText = usuario
+  ? usuario.endereco
+    ? usuario.endereco.cep
+      ? usuario.endereco.cep.codigo
+      : "Informação não encontrada!"
+    : "Informação não encontrada!"
+  : "Informação não encontrada!"
+// Exemplo #2: Acessando o campo 'codigo' através de um Optional Chaining e tratando as camadas para o cenário em que não existam
+document.body.innerText =
+  usuario.endereco?.cep?.codigo ?? "Informação não encontrada!"
+// Exemplo #3: Utilizando o conceito para chamadas de função
+document.body.innerText = usuario.endereco?.retornaStatusAtivoDoEndereco?.()
+
+// Métodos e Manipulações envolvendo Arrays
+const arrayList = [1, 2, 3, 4, 5]
+// Podemos percorrer um array de diversas maneiras, for, forEach, map e etc... Porém no caso do forEach não é possível realizar um return dentro do escopo do mesmo. Já no map é possível aplicar tal conceito.
+
+// MAP: Permite a manipulação de todos os itens do array original de acordo com condições indicadas pelo programador
+// Exemplo #1: Retornando valores a partir de um map
+const novoArray = arrayList.map(item => {
+  if(item % 2 === 0){
+    return item * 10
+  }
+  else{
+    return item
+  }
+})
+document.body.innerText = novoArray
+// Observação: O map sempre irá retornar um novo array com o mesmo tamanho do array original que está sendo manipulado, esta ferramenta sempre trata um array e retorna outro array (de mesmo length!)
+
+// FILTER: Filtra, corta, pega um pedaço do array original
+// Exemplo #1: Fltrando o array original para retornar apenas os elementos ímpares do mesmo
+const arrayFiltrado = arrayList.filter(item => item % 2 !== 0)
+document.body.innerText = arrayFiltrado
+// Exemplo #2: Encadeando métodos de arrays
+const arrayFiltradoEMapeado = arrayList
+  .filter(item => item % 2 !== 0)
+  .map(item => item * 10)
+document.body.innerText = arrayFiltradoEMapeado
+
+// EVERY: Manipulação de array que percorre todos os seus elementos, validando se determinada condição é atendida por cada um dos itens do vetor, caso seja, este método retorna o booleano 'true' caso contrário 'false'
+// Exemplo #1: Validando se todos os elementos de um array são do tipo 'number'
+const todosOsItensSaoNumeros = arrayList.every(item => typeof(item) === "number");
+document.body.innerText = todosOsItensSaoNumeros;
+// Observação: Logicamente, o conteúdo interno da função '.every' deve ser sempre em formato de condicional, retornando verdeiro ou falso.
+
+// SOME: Valida a existência de pelo menos algum item dentro de um array que atenda a uma condição específica explicitada. Retornando também um booleano para indicar o resultado da validação.
+// Exemplo #1: Busca por algum item que não seja um número
+const arrayAuxiliar = [1, 2, 3, "quatro", "cinco", false]
+const peloMenosUmItemNaoEUmNumero = arrayAuxiliar.some(item => typeof(item) !== "number")
+document.body.innerText = peloMenosUmItemNaoEUmNumero;
+
+// FIND: Retorna o primeiro item encontrado em um array que atenda a uma condição explicitada
+// Exemplo #1: Busca por um número par
+const numeroPar = arrayList.find(item => item % 2 === 0)
+document.body.innerText = numeroPar;
+
+// FINDINDEX: Retorna o índice (posição no array) do primeiro elemento do vetor que atende a determinada condição explicitada
+// Exemplo #1: Busca o índice do primeiro elemento par
+const indiceDoNumeroPar = arrayList.findIndex(item => item % 2 === 0)
+document.body.innerText = indiceDoNumeroPar
+
+// REDUCE: Utilizado geralmente quando queremos manipular um array e a partir deste criar uma nova estrutura de dados, baseada no conteúdo deste vetor. Seus parâmetros de entrada são basicamente: Uma arrow function e o valor inicial que aquela nova estrutura a ser criada deve armazenar.
+// Exemplo #1: Somar todos os valores de um vetor e retornar este resultado. Para tal precisamos de uma função que explicite esta soma, e passaremos o valor inicial da estrutura como 0, para que o resultado seja unicamente a soma dos elementos do array
+const soma = arrayList.reduce((acc, item) => {
+  // acc é o acumulator a variável a ser acumulada a cada iteração do método sobre o array
+  document.body.innerText += acc + ", " + item + ' --- '
+  // O método reduce espera que a cada iteração seja retornado o novo valor do acumulator (acc) ou seja o conteúdo do return deste método irá ser armazenado no acc na próxima iteração
+  return acc + item;
+}, 0)
+document.body.innerText = soma
